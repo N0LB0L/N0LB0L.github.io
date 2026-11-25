@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LesPaulverizer · Nolan Downey</title>
+<meta name="description" content="ESP32 jam box on a custom PCB: mixes up to 4 looping backing tracks from microSD, with an op-amp output stage that plugs into any amp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="sub">
+<nav>
+  <div class="wrap">
+    <a class="me" href="index.html">Nolan Downey</a>
+    <a class="l" href="index.html#projects">Projects</a>
+    <a class="l" href="index.html#about">About</a>
+    <a class="l" href="https://github.com/N0LB0L">GitHub</a>
+  </div>
+</nav>
+
+<header class="hero band">
+  <div class="wrap">
+    <div>
+      <a class="back" href="index.html#projects">← All projects</a><br>
+      <span class="tag">Solo build</span>
+      <h1>LesPaulverizer</h1>
+      <p class="one">ESP32 jam box on a custom PCB: mixes up to 4 looping backing tracks from microSD, with an op-amp output stage that plugs into any amp.</p>
+    </div>
+    <div class="board">
+      <span class="hole"></span><span class="hole"></span><span class="hole"></span><span class="hole"></span>
+      <figure class="media " data-src="media/lespaulverizer.mp4" data-alt="LesPaulverizer"><div class="ph"><b>LesPaulverizer</b>Demo loop</div></figure>
+    </div>
+  </div>
+</header>
+<main class="band"><div class="wrap">
+<dl class="facts">
+<div><dt>Role</dt><dd>Solo, from schematic to firmware</dd></div>
+<div><dt>Brain</dt><dd>ESP32</dd></div>
+<div><dt>Audio</dt><dd>MAX98357A I2S amp · TL072 op-amps</dd></div>
+<div><dt>Interface</dt><dd>I2C LCD · rotary encoder · play/pause</dd></div>
+<div><dt>Power</dt><dd>9 V battery · LM2596 buck</dd></div>
+</dl>
+<div class="secs">
+<section class="sec"><div><h2><small>What it does</small>A backing band in a box</h2><p>Load backing tracks onto a microSD card, pick up to four with the rotary encoder and LCD, and they loop together while you play over them. One button pauses and resumes. Plug it into any amp and jam by yourself.</p></div><figure class="media light" data-src="media/lespaulverizer-photo.jpg" data-alt="The device"><div class="ph"><b>The device</b>Photo</div></figure></section>
+<section class="sec wide demo"><div><h2><small>Demo</small>Hear it play</h2></div><video controls playsinline preload="metadata" poster="media/lespaulverizer-poster.jpg" src="media/lespaulverizer-demo.mp4" aria-label="LesPaulverizer demo with sound"></video><p>Full demo with sound: selecting tracks with the encoder and starting playback with the button.</p></section>
+<section class="sec"><div><h2><small>Digital side</small>From SD card to I2S</h2><p>Tracks live on the microSD card as WAV files. The ESP32 reads them over SPI, mixes the active ones together in software, and streams the result over I2S to a MAX98357A amplifier. The LCD runs over I2C, with the encoder and button on GPIO.</p><p>Everything sits on a custom carrier board I designed: off-the-shelf modules for the ESP32, SD card, amplifier and buck converter, plus my own through-hole op-amp output stage.</p></div><figure class="media light fit" data-src="media/lespaulverizer-open.jpg" data-alt="LesPaulverizer opened up: the LCD and controls in the case, folded out to the custom carrier board with the ESP32, SD module, amplifier and buck converter"><div class="ph"><b>Inside</b>Case opened up</div></figure></section>
+<section class="sec"><div><h2><small>Analog side</small>Making a speaker amp talk to a guitar amp</h2><p>The MAX98357A is built to drive a speaker directly, so its output is differential. I filter both outputs with RC low-pass stages, then a TL072 difference amplifier converts the signal to single-ended around a 4.5 V virtual ground, so everything runs from one 9 V battery. A second TL072 stage buffers the signal out to the jack.</p></div><figure class="media light" data-src="media/lespaulverizer-scope.jpg" data-alt="Close-up of the two TL072 op-amps and their resistors"><div class="ph"><b>Output stage</b>Close-up</div></figure></section>
+<section class="sec wide"><div><h2><small>Schematic</small>The full circuit</h2><p>Power, the ESP32 and its peripherals, and the amplifier and op-amp output stage.</p></div><figure class="media light fit" data-src="media/lespaulverizer-schematic.png" data-alt="LesPaulverizer schematic"><div class="ph"><b>Schematic</b>Clean export</div></figure></section>
+<section class="problem wide"><h2><small>Hardest problem</small>Finding an op-amp good enough for audio</h2><div class="beats"><div><h3>The problem</h3><p>The MAX98357A is designed to drive a low-impedance speaker with a differential output. A guitar amp expects a single-ended signal into a high-impedance input. Plugging one into the other directly doesn't work.</p></div><div><h3>The approach</h3><p>An op-amp stage could match the two: a difference amplifier to make the signal single-ended around a 4.5 V virtual ground, and a buffer to drive the jack. But not every op-amp keeps audio clean, and the wrong one adds noise and distortion you can hear.</p></div><div><h3>The fix</h3><p>After comparing options, I settled on the TL072, a JFET-input op-amp built for audio. Its high input impedance and low noise gave a clean signal the amp can take directly.</p></div></div></section>
+</div>
+<div class="pager"><a href="bipede.html">← BiPede</a><a href="autoharmonizer.html">AutoHarmonizer →</a></div>
+</div></main>
+
+<footer><div class="wrap">© 2026 Nolan Downey · nolan.downey23@gmail.com</div></footer>
+<script src="site.js"></script>
+</body>
+</html>

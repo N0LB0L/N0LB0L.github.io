@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AutoHarmonizer · Nolan Downey</title>
+<meta name="description" content="Real-time vocal harmonizer on a Teensy 4.1 custom PCB: an I2S MEMS mic captures your voice and pitch-shifts it up to ±12 semitones to sing a harmony with you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="sub">
+<nav>
+  <div class="wrap">
+    <a class="me" href="index.html">Nolan Downey</a>
+    <a class="l" href="index.html#projects">Projects</a>
+    <a class="l" href="index.html#about">About</a>
+    <a class="l" href="https://github.com/N0LB0L">GitHub</a>
+  </div>
+</nav>
+
+<header class="hero band">
+  <div class="wrap">
+    <div>
+      <a class="back" href="index.html#projects">← All projects</a><br>
+      <span class="tag">Solo build</span>
+      <h1>AutoHarmonizer</h1>
+      <p class="one">Real-time vocal harmonizer on a Teensy 4.1 custom PCB: an I2S MEMS mic captures your voice and pitch-shifts it up to ±12 semitones to sing a harmony with you.</p>
+    </div>
+    <div class="board">
+      <span class="hole"></span><span class="hole"></span><span class="hole"></span><span class="hole"></span>
+      <figure class="media " data-src="media/autoharmonizer.mp4" data-alt="AutoHarmonizer"><div class="ph"><b>AutoHarmonizer</b>Demo loop</div></figure>
+    </div>
+  </div>
+</header>
+<main class="band"><div class="wrap">
+<dl class="facts">
+<div><dt>Role</dt><dd>Solo, from schematic to DSP</dd></div>
+<div><dt>Brain</dt><dd>Teensy 4.1</dd></div>
+<div><dt>Audio</dt><dd>I2S MEMS mic in · Teensy Audio Shield out</dd></div>
+<div><dt>Interface</dt><dd>OLED · rotary encoder</dd></div>
+<div><dt>Power</dt><dd>9 V battery · switch · buck regulator</dd></div>
+</dl>
+<div class="secs">
+<section class="sec"><div><h2><small>What it does</small>Sing a duet with yourself</h2><p>Sing into the microphone and pick an interval anywhere from 12 semitones down to 12 up with the rotary encoder and OLED. A copy of your own voice comes out shifted to that interval, singing the harmony with you in real time.</p><p>The display shows the note it hears you singing, the interval, and the harmony note it's producing. In the photo, an E6 shifted up 5 semitones becomes an A6.</p></div><figure class="media light" data-src="media/autoharmonizer-photo.jpg" data-alt="The device"><div class="ph"><b>The device</b>Photo</div></figure></section>
+<section class="sec wide demo"><div><h2><small>Demo</small>Hear it harmonize</h2></div><video controls playsinline preload="metadata" poster="media/autoharmonizer-poster.jpg" src="media/autoharmonizer-demo.mp4" aria-label="AutoHarmonizer demo with sound"></video><p>Full demo with sound: singing into the mic while turning the encoder through different harmony intervals.</p></section>
+<section class="sec"><div><h2><small>Signal path</small>Mic to harmony</h2><p>An I2S MEMS microphone streams digital audio straight into the Teensy 4.1, which pitch-shifts it by the selected interval with a WSOLA algorithm I wrote myself. The result goes out through the Teensy Audio Shield. The OLED and encoder handle the interface, and a 9 V battery feeds the board through a switch and buck regulator.</p><p>Everything sits on a custom carrier board I designed, with the Teensy 4.1, audio shield, microphone, OLED and regulator plugged in as modules.</p></div><figure class="media light fit" data-src="media/autoharmonizer-pcb.jpg" data-alt="AutoHarmonizer PCB: front with OLED, microphone and encoder; back with the Teensy, audio shield and headphone jack"><div class="ph"><b>Custom PCB</b>Both sides</div></figure></section>
+<section class="sec wide"><div><h2><small>Schematic</small>The full circuit</h2><p>Battery, switch and regulator, the I2S microphone and OLED, and the Teensy 4.1 with the rotary encoder.</p></div><figure class="media light fit" data-src="media/autoharmonizer-schematic.png" data-alt="AutoHarmonizer schematic"><div class="ph"><b>Schematic</b>Clean export</div></figure></section>
+<section class="problem wide"><h2><small>Hardest problem</small>Writing WSOLA for real time</h2><div class="beats"><div><h3>The problem</h3><p>The simple way to change pitch, playing audio faster or slower, also changes its length. A harmony has to stay locked in time with the singer, so pitch had to move while timing stayed fixed.</p></div><div><h3>The approach</h3><p>I wrote WSOLA (waveform similarity overlap-add) from scratch. It stretches audio in time by overlapping short windowed segments, each placed where its waveform best matches the one before it, so the joins stay smooth. Resampling the stretched audio back to its original length shifts the pitch.</p></div><div><h3>Why it was hard</h3><p>Early versions sounded warbly. Getting a harmony that sounded like a natural second voice, not a wobbling copy, was the hardest part of the project.</p></div><div><h3>The fix</h3><p>The warble came from how segments faded into each other. Changing the shape of the window used to cross-fade each segment smoothed the joins and got rid of it.</p></div></div></section>
+</div>
+<div class="pager"><a href="lespaulverizer.html">← LesPaulverizer</a><a href="trashcollector.html">TrashCollector →</a></div>
+</div></main>
+
+<footer><div class="wrap">© 2026 Nolan Downey · nolan.downey23@gmail.com</div></footer>
+<script src="site.js"></script>
+</body>
+</html>

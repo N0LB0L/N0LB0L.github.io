@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrashCollector · Nolan Downey</title>
+<meta name="description" content="Autonomous trash-collection robot: follows a line grid, finds bins by AprilTag, lifts and weighs them with a load-cell arm, and climbs a ramp to dump them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="sub">
+<nav>
+  <div class="wrap">
+    <a class="me" href="index.html">Nolan Downey</a>
+    <a class="l" href="index.html#projects">Projects</a>
+    <a class="l" href="index.html#about">About</a>
+    <a class="l" href="https://github.com/N0LB0L">GitHub</a>
+  </div>
+</nav>
+
+<header class="hero band">
+  <div class="wrap">
+    <div>
+      <a class="back" href="index.html#projects">← All projects</a><br>
+      <span class="tag">Solo software</span>
+      <h1>TrashCollector</h1>
+      <p class="one">Autonomous trash-collection robot: follows a line grid, finds bins by AprilTag, lifts and weighs them with a load-cell arm, and climbs a ramp to dump them.</p>
+    </div>
+    <div class="board">
+      <span class="hole"></span><span class="hole"></span><span class="hole"></span><span class="hole"></span>
+      <figure class="media " data-src="media/trashcollector.mp4" data-alt="TrashCollector"><div class="ph"><b>TrashCollector</b>Full run video</div></figure>
+    </div>
+  </div>
+</header>
+<main class="band"><div class="wrap">
+<dl class="facts">
+<div><dt>Role</dt><dd>Solo: all behavior and task logic</dd></div>
+<div><dt>Platform</dt><dd>Pololu Romi, provided chassis and base firmware</dd></div>
+<div><dt>Language</dt><dd>C++</dd></div>
+<div><dt>Sensing</dt><dd>Line sensors · UART camera for AprilTags · load cell · IMU</dd></div>
+<div><dt>Output</dt><dd>Servo arm · LCD</dd></div>
+</dl>
+<div class="secs">
+<section class="sec"><div><h2><small>The task</small>Find it, weigh it, dump it</h2><p>The field is a grid of electrical tape with small 3D-printed baskets marked by AprilTags. The robot has to find a basket, lift it with a servo arm, weigh it with a load cell and show the weight on an LCD, then carry it up a ramp to the dump, empty it, and drive back to the start.</p><p>The Romi chassis and its base firmware were provided. I designed and wrote all of the behavior.</p></div><figure class="media light fit" data-src="media/trashcollector-field.jpg" data-alt="TrashCollector robot: Romi chassis with servo arm, load cell, LCD and breadboard"><div class="ph"><b>TrashCollector</b>Robot photo</div></figure></section>
+<section class="sec wide"><div><h2><small>State machine</small>One run, start to finish</h2>
+<p>I wrote the whole behavior as a state machine in C++. Each state hands off to the next when its sensor condition is met.</p>
+<ol class="flow">
+<li><b>Follow line</b><span>Track the tape grid</span></li>
+<li><b>Find bin</b><span>Detect its AprilTag</span></li>
+<li><b>Approach</b><span>Line up with the bin</span></li>
+<li><b>Lift</b><span>Servo arm picks it up</span></li>
+<li><b>Weigh</b><span>Load cell, shown on LCD</span></li>
+<li><b>Drive to ramp</b><span>Back on the line grid</span></li>
+<li><b>Climb</b><span>IMU sees pitch change</span></li>
+<li><b>Dump</b><span>Turn at the edge, empty bin</span></li>
+<li><b>Return</b><span>Down the ramp to start</span></li>
+</ol></div></section>
+<section class="problem wide"><h2><small>Hardest problem</small>Running out of flash</h2><div class="beats"><div><h3>The problem</h3><p>As the behavior grew, with line following, tag detection, the arm, weighing, the LCD and ramp detection, the program outgrew the controller's flash memory.</p></div><div><h3>Why it was hard</h3><p>Every new state and sensor added code, and the limit was fixed by the hardware, so the whole program had to fit inside it.</p></div><div><h3>The fix</h3><p>I restructured the code, cut unnecessary variables, and switched to smaller fixed-width types like int16_t wherever the values allowed, until everything fit.</p></div></div></section>
+<section class="sec"><div><h2><small>Ramp detection</small>Knowing where it is by how it tilts</h2><p>The robot can't see the dump, so it uses its IMU. When pitch changes, it knows it's on the ramp. At the edge it turns around, dumps the basket, and drives back down to the start.</p></div><figure class="media light" data-src="media/trashcollector-ramp.jpg" data-alt="On the ramp"><div class="ph"><b>On the ramp</b>Still from the video</div></figure></section>
+</div>
+<div class="pager"><a href="autoharmonizer.html">← AutoHarmonizer</a><a href="vex.html">VEX U Robot →</a></div>
+</div></main>
+
+<footer><div class="wrap">© 2026 Nolan Downey · nolan.downey23@gmail.com</div></footer>
+<script src="site.js"></script>
+</body>
+</html>

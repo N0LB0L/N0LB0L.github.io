@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BiPede · Nolan Downey</title>
+<meta name="description" content="A two-wheeled self-balancing robot that sweeps a room on its own, maps it, and reports what&#x27;s lying on the floor.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="sub">
+<nav>
+  <div class="wrap">
+    <a class="me" href="index.html">Nolan Downey</a>
+    <a class="l" href="index.html#projects">Projects</a>
+    <a class="l" href="index.html#about">About</a>
+    <a class="l" href="https://github.com/N0LB0L">GitHub</a>
+  </div>
+</nav>
+
+<header class="hero band">
+  <div class="wrap">
+    <div>
+      <a class="back" href="index.html#projects">← All projects</a><br>
+      <span class="tag">Solo build</span>
+      <h1>BiPede</h1>
+      <p class="one">A two-wheeled self-balancing robot that sweeps a room on its own, maps it, and reports what's lying on the floor.</p>
+    </div>
+    <div class="board tall">
+      <span class="hole"></span><span class="hole"></span><span class="hole"></span><span class="hole"></span>
+      <figure class="media tall" data-src="media/bipede-hero.mp4" data-alt="BiPede"><div class="ph"><b>BiPede</b>Balancing clip</div></figure>
+    </div>
+  </div>
+</header>
+<main class="band"><div class="wrap">
+<dl class="facts">
+<div><dt>Role</dt><dd>Solo, from design to code</dd></div>
+<div><dt>Project</dt><dd>WPI Robotics Engineering MQP, 2026</dd></div>
+<div><dt>Compute</dt><dd>Pico 2 · Raspberry Pi 5 · laptop after the sweep</dd></div>
+<div><dt>Sensing</dt><dd>OAK-D Lite depth · BNO085 IMU · wheel odometry</dd></div>
+<div><dt>Actuation</dt><dd>2× ODrive Micro · 4015 BLDC · STS3215 servos</dd></div>
+</dl>
+<div class="secs">
+<section class="sec wide"><div><h2><small>What it does</small>One sweep, one report</h2>
+<p>Start a sweep and BiPede explores the room on its own, maps it, and comes back to where it started, recording what its camera sees along the way. Afterwards a laptop turns that recording into a report of floor hazards like shoes, bags, cables, boxes and bottles: a photo of each, what it is, and where it sits on the map.</p>
+<ol class="flow">
+<li><b>Start</b><span>Operator starts a sweep</span></li>
+<li><b>Explore</b><span>Frontier explorer picks where to go</span></li>
+<li><b>Map</b><span>RTAB-Map builds the room</span></li>
+<li><b>Return</b><span>Drives back to its start</span></li>
+<li><b>Report</b><span>Photo, label and map spot for each hazard</span></li>
+</ol></div></section>
+<section class="sec wide"><div><h2><small>Results</small>Five autonomous sweeps of a staged room</h2></div>
+<dl class="stats">
+<div><dt>Objects found</dt><dd>29 / 30</dd><span>located within about 6 cm</span></div>
+<div><dt>Area per sweep</dt><dd>~18 m²</dd><span>in 4.5–5.3 minutes</span></div>
+<div><dt>Returned home</dt><dd>5 / 5</dd><span>every sweep</span></div>
+<div><dt>Balance error</dt><dd>0.4–0.7°</dd><span>RMS pitch while driving</span></div>
+<div><dt>Push recovery</dt><dd>&lt; 2.5 s</dd><span>from hand pushes</span></div>
+<div><dt>False alarms</dt><dd>2 / sweep</dd><span>mostly one baseboard spot</span></div>
+</dl></section>
+<section class="sec"><div><h2><small>Why this design</small>Built to see what's on the floor</h2><ul><li><b>Floor-level view.</b> At about 30 cm tall, the camera sees the floor the way a person only would by kneeling, including under furniture. That matters anywhere things on the floor are a risk: homes, especially for older people, restaurants and warehouses.</li><li><b>Sweep on demand.</b> The battery can't support constant patrolling, so BiPede does one sweep when asked and then idles. There's no charging dock.</li><li><b>Two wheels, not four.</b> The inverted-pendulum design keeps the robot narrow and lets the legs set the camera height. The cost is that it has to balance actively the whole time.</li></ul></div><figure class="media light fit" data-src="media/bipede-still.jpg" data-alt="BiPede standing on a rug, about 30 cm tall"><div class="ph"><b>BiPede</b>Photo</div></figure></section>
+<section class="sec wide"><div><h2><small>Architecture</small>Each job runs where it fits</h2>
+<p>The Pico 2 keeps BiPede upright. The Pi 5 maps the room and decides where to drive. The heavy detection work waits until after the sweep and runs on a laptop, so the robot's battery goes to balancing and exploring.</p>
+<div class="arch" role="img" aria-label="OAK-D Lite depth camera connects to the Pi 5 over USB. The Pi 5 runs ROS 2 mapping and navigation, and talks to the Pico 2 over UART. The Pico 2 runs the balance controller and connects to two ODrive Micros over CAN, the leg servos over half-duplex UART, and the BNO085 IMU over I2C. After the sweep, recorded data goes to a laptop running YOLOE hazard detection.">
+<div class="tier"><div class="node"><b>OAK-D Lite</b><span>depth camera</span></div><span class="wire">USB</span><div class="node main"><b>Raspberry Pi 5</b><span>ROS 2 Jazzy · RTAB-Map · Nav2 · frontier explorer</span></div><span class="wire">after the sweep</span><div class="node"><b>Laptop</b><span>YOLOE hazard report</span></div></div>
+<div class="vwire"><span>UART</span></div>
+<div class="tier"><div class="node main"><b>Pico 2</b><span>balance controller · ~100 Hz</span></div></div>
+<div class="vwire short"></div>
+<div class="leaves">
+<div class="leaf"><span class="bus">CAN 500 kbps</span><div class="node"><b>2× ODrive Micro</b><span>4015 BLDC wheels</span></div></div>
+<div class="leaf"><span class="bus">Half-duplex UART</span><div class="node"><b>STS3215 servos</b><span>leg height</span></div></div>
+<div class="leaf"><span class="bus">I2C · 100 Hz</span><div class="node"><b>BNO085 IMU</b><span>orientation</span></div></div>
+</div>
+</div></div></section>
+<section class="sec"><div><h2><small>Mechanical</small>Legs that set the camera height</h2><p>BiPede has a box chassis and two 2-DOF legs with wheels at the tips. Each leg uses a four-bar parallelogram linkage driven by a single STS3215 servo, which lets the legs raise or lower the camera. I designed it all in SolidWorks after evaluating several straight-line linkages, including Hoekens, Chebyshev and Peaucellier–Lipkin.</p></div><figure class="media light contain" data-src="media/stack-cad.png" data-alt="BiPede SolidWorks model"><div class="ph"><b>CAD</b>SolidWorks model</div></figure></section>
+<section class="sec"><div><h2><small>Electrical</small>One board for power and I/O</h2><p>A 6S LiPo feeds a custom 65×65 mm two-layer board I designed in EasyEDA and had made by JLCPCB. It splits power into a 12 V servo rail and a 5 V logic rail through Pololu regulators and feeds both ODrive Micro motor controllers. Ground pours with about 60 stitching vias keep the CAN traces over continuous ground.</p><p>The same board carries the Pico 2 and breaks out headers for the Pi 5 UART link, the servo bus, and the BNO085 IMU.</p></div><figure class="media light fit" data-src="media/bipede-schematic.png" data-alt="BiPede board schematic: Pico 2, Pi 5 header, servo, IMU and XT60 power connections, and Pololu regulators"><div class="ph"><b>Schematic</b></div></figure></section>
+<section class="sec"><div><h2><small>Firmware</small>Balancing at 100 Hz on a Pico 2</h2><p>The Pico 2 runs the balance controller at about 100 Hz: a feedback-linearized pitch loop wrapped in an outer velocity and position loop. It reads a BNO085 IMU over I2C, drives both wheel motors through ODrive Micros over CAN at 500 kbps, and runs the leg servos over half-duplex UART, while taking drive commands from the Pi.</p><p>I brought up each bus in isolation, with loopback tests and live telemetry, before integrating them.</p></div><figure class="media light fit" data-src="media/bipede-board.jpg" data-alt="BiPede custom board with the Pico 2, Pololu regulators, XT60 connectors and headers for the Pi 5, servos and IMU"><div class="ph"><b>Board</b>Photo</div></figure></section>
+<section class="sec"><div><h2><small>Software</small>Mapping and exploring with ROS 2</h2><p>The Raspberry Pi 5 runs ROS 2 Jazzy. RTAB-Map builds the map from the OAK-D Lite depth camera plus wheel odometry, Nav2 with Regulated Pure Pursuit drives the robot, and a custom frontier explorer I wrote keeps choosing the next unexplored area until the room is covered. The map shown here is one BiPede built.</p></div><figure class="media light fit" data-src="media/stack-ros2.png" data-alt="Occupancy grid map BiPede built of a room"><div class="ph"><b>Map</b>Screenshot</div></figure></section>
+<section class="sec wide"><div><h2><small>Hazard detection</small>From recording to report</h2><p>After the sweep, the saved keyframes run through YOLOE, an open-vocabulary detector, on a laptop. Each detection is checked against depth: is it on the floor, close enough, not furniture, and not on someone's feet. Detections that pass are placed on the map and merged across views into one object, so each hazard appears once in the report.</p><p>Below, every detection from the five staged sweeps is placed on the real room. Green circles are objects I placed, blue are real objects already in the room, and red are false alarms. The small dots inside each circle are the individual sweeps, which shows how consistently each object was found and located.</p></div><figure class="media light fit" data-src="media/bipede-report.png" data-alt="Map of every detection from the five staged sweeps, placed on a 3D reconstruction of the room: green circles for placed objects, blue for real objects already in the room, red for false alarms, small dots for each sweep, and a star at the start point"><div class="ph"><b>Hazard map</b></div></figure></section>
+<section class="problem wide"><h2><small>Hardest problem</small>The encoder that wouldn't calibrate</h2><div class="beats"><div><h3>The problem</h3><p>ODrive calibration kept failing with errors that pointed different ways: phase resistance, then phase inductance, then a pole-pair/CPR mismatch.</p></div><div><h3>The investigation</h3><p>Raising calibration current to 3 A fixed the resistance error, and I corrected the CPR settings, but the mismatch stayed even with the right motor parameters. That pointed away from configuration and toward the encoder signal itself.</p></div><div><h3>The fix</h3><p>The ODrive Micro's MA702 encoder needs a diametrically magnetized disc, and my motors shipped with a ring magnet. I swapped in a disc at the right standoff, checked the field strength, and the motors calibrated cleanly.</p></div></div></section>
+<section class="sec"><div><h2><small>Result</small>Balancing through pushes</h2><p>BiPede holds 0.4–0.7° RMS pitch error while driving and recovers from hand pushes in under 2.5 seconds. Every layer, from the linkage geometry to the exploration code, is my own design.</p></div><figure class="media light tall" data-src="media/bipede-hero.mp4" data-alt="BiPede balancing and recovering from a push"><div class="ph"><b>Result</b>Balancing clip</div></figure></section>
+</div>
+<div class="pager"><a href="index.html#projects">← All projects</a><a href="lespaulverizer.html">LesPaulverizer →</a></div>
+</div></main>
+
+<footer><div class="wrap">© 2026 Nolan Downey · nolan.downey23@gmail.com</div></footer>
+<script src="site.js"></script>
+</body>
+</html>

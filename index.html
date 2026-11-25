@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nolan Downey Robotics</title>
+<meta name="description" content="Nolan Downey: full-stack robotics engineer. Mechanical, electrical, firmware, software.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="me" href="index.html">Nolan Downey</a>
+    <a class="l" href="#projects">Projects</a>
+    <a class="l" href="#about">About</a>
+    <a class="l" href="https://github.com/N0LB0L">GitHub</a>
+  </div>
+</nav>
+
+<header class="hero band" id="top">
+  <div class="wrap">
+    <div>
+      <h1>Nolan Downey</h1>
+      <div class="title">Full-Stack Robotics Engineer</div>
+      <ul class="pads" aria-label="Layers">
+        <li><span class="pad"></span>Mechanical</li>
+        <li><span class="pad"></span>Electrical</li>
+        <li><span class="pad"></span>Firmware</li>
+        <li><span class="pad"></span>Software</li>
+      </ul>
+      <div class="cta">
+        <a class="btn solid" href="#projects">See projects</a>
+      </div>
+    </div>
+    <div class="board tall">
+      <span class="hole"></span><span class="hole"></span><span class="hole"></span><span class="hole"></span>
+      <figure class="media tall" data-src="media/bipede-hero.mp4" data-alt="BiPede balancing and recovering from a push">
+        <div class="ph"><b>BiPede balancing</b>Hero clip, 5–10 s loop</div>
+      </figure>
+      <div class="silk"><span>BIPEDE · REV A</span><span>Designed, wired and coded solo</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="stack band" aria-labelledby="stack-h">
+  <div class="wrap">
+    <h2 id="stack-h">Every layer of BiPede, built by me</h2>
+    <p class="lede">A self-balancing robot that maps a room and finds what's on the floor. From the linkage geometry to the exploration code.</p>
+    <ol class="chain">
+      <li><figure class="media contain" data-src="media/stack-cad.png" data-alt="BiPede CAD"><div class="ph"><b>CAD</b>Screenshot</div></figure><h3>Mechanical</h3><p>Four-bar leg linkages in SolidWorks</p></li>
+      <li><figure class="media contain" data-src="media/bipede-schematic.png" data-alt="BiPede board schematic"><div class="ph"><b>PCB</b>Schematic</div></figure><h3>Electrical</h3><p>Custom 65×65 mm power board</p></li>
+      <li><figure class="media" data-src="media/bipede-board.jpg" data-alt="BiPede custom board with the Pico 2"><div class="ph"><b>Electronics</b>Photo</div></figure><h3>Firmware</h3><p>Pico 2 balancing at 100 Hz</p></li>
+      <li><figure class="media contain" data-src="media/stack-ros2.png" data-alt="Occupancy map built by BiPede"><div class="ph"><b>Map</b>Screenshot</div></figure><h3>Software</h3><p>ROS 2 mapping and exploration</p></li>
+      <li><figure class="media" data-src="media/bipede-hero.mp4" data-alt="BiPede balancing"><div class="ph"><b>Result</b>Clip</div></figure><h3>Result</h3><p>Recovers from pushes in under 2.5 s</p></li>
+    </ol>
+  </div>
+</section>
+
+<main class="band" id="projects">
+  <div class="wrap">
+    <h2>Projects</h2>
+    <div class="grid">
+      <article class="card feature">
+        <figure class="media light contain" data-src="media/stack-cad.png" data-alt="BiPede CAD model"><div class="ph"><b>BiPede</b>Project clip</div></figure>
+        <div class="body">
+          <span class="tag">Solo build</span>
+          <h3><a href="bipede.html">BiPede</a></h3>
+          <p>A two-wheeled self-balancing robot that sweeps a room on its own, maps it, and reports the trip hazards lying on the floor.</p>
+          <p class="stat">29 of 30 floor objects found across 5 autonomous sweeps</p>
+          <span class="go">How I built it →</span>
+        </div>
+      </article>
+      <article class="card">
+        <figure class="media light" data-src="media/lespaulverizer.mp4" data-alt="LesPaulverizer"><div class="ph"><b>LesPaulverizer</b>Demo clip with sound</div></figure>
+        <div class="body">
+          <span class="tag">Solo build</span>
+          <h3><a href="lespaulverizer.html">LesPaulverizer</a></h3>
+          <p>ESP32 jam box on a custom PCB: mixes up to 4 looping backing tracks from microSD, with an op-amp output stage that plugs into any amp.</p>
+          <span class="go">How I built it →</span>
+        </div>
+      </article>
+      <article class="card">
+        <figure class="media light" data-src="media/autoharmonizer.mp4" data-alt="AutoHarmonizer"><div class="ph"><b>AutoHarmonizer</b>Demo clip with sound</div></figure>
+        <div class="body">
+          <span class="tag">Solo build</span>
+          <h3><a href="autoharmonizer.html">AutoHarmonizer</a></h3>
+          <p>Real-time vocal harmonizer on a Teensy 4.1 custom PCB: an I2S MEMS mic captures your voice and pitch-shifts it up to ±12 semitones to sing a harmony with you.</p>
+          <span class="go">How I built it →</span>
+        </div>
+      </article>
+      <article class="card">
+        <figure class="media light" data-src="media/trashcollector.mp4" data-alt="TrashCollector"><div class="ph"><b>TrashCollector</b>Existing video</div></figure>
+        <div class="body">
+          <span class="tag">Solo software</span>
+          <h3><a href="trashcollector.html">TrashCollector</a></h3>
+          <p>Autonomous trash-collection robot: follows a line grid, finds bins by AprilTag, lifts and weighs them with a load-cell arm, and climbs a ramp to dump them.</p>
+          <span class="go">How I built it →</span>
+        </div>
+      </article>
+      <article class="card">
+        <figure class="media light contain" data-src="media/vex.jpg" data-alt="VEX U robot"><div class="ph"><b>VEX U Robot</b>Best photo</div></figure>
+        <div class="body">
+          <span class="tag">Solo build</span>
+          <h3><a href="vex.html">VEX U Robot</a></h3>
+          <p>VEX U Tipping Point robot: ring intake, four-bar mobile-goal lift with pneumatic front and rear clamps, 10-motor drive, and custom carbon-fiber polycarbonate parts.</p>
+          <span class="go">How I built it →</span>
+        </div>
+      </article>
+    </div>
+
+    <h3 style="font-size:28px;margin-top:48px">Other builds</h3>
+    <div class="more">
+      <div class="mini">
+        <figure class="media light" data-src="media/turtlebot.jpg" data-alt="SLAM map in RViz"><div class="ph"><b>RViz map</b></div></figure>
+        <div><h3>TurtleBot Maze</h3><p>Autonomous maze mapping and navigation with ROS2 SLAM on a TurtleBot3.</p><span class="tag team">Team project</span></div>
+      </div>
+      <div class="mini">
+        <figure class="media light" data-src="media/arm.mp4" data-alt="Robotic arm"><div class="ph"><b>Arm clip</b></div></figure>
+        <div><h3>Robotic Arm</h3><p>Robotic arm that detects and sorts colored balls using computer vision and inverse kinematics in MATLAB.</p><span class="tag team">Team project</span></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section class="about band" id="about" style="border-top:1.5px solid var(--line)">
+  <div class="wrap">
+    <div>
+      <h2>About</h2>
+      <p>I'm Nolan, a Robotics Engineering student at WPI, graduating December 2026. I build complete systems: I design the mechanisms, lay out custom PCBs, write the firmware, and get every subsystem working together. I've been building robots since elementary school.</p>
+    </div>
+    <div>
+      <h3 style="font-size:24px;margin-top:6px">Tools</h3>
+      <ul class="tools">
+        <li>SolidWorks</li><li>FEA</li><li>PCB design</li><li>C++</li><li>Python</li><li>Java</li><li>MATLAB</li><li>ROS 2</li><li>Microcontrollers</li><li>Serial protocols (CAN, UART, I2C, SPI)</li><li>Git</li><li>3D printing</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="contact band">
+  <div class="wrap">
+    <h2>Let's talk robots.</h2>
+    <div class="links">
+      <a class="btn solid" href="mailto:nolan.downey23@gmail.com">Email me</a>
+      <a class="btn" href="https://github.com/N0LB0L">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">© 2026 Nolan Downey · nolan.downey23@gmail.com</div></footer>
+<script src="site.js"></script>
+</body>
+</html>
